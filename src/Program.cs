@@ -42,13 +42,13 @@ if (mapper == null)
 }
 
 app.MapGet("/clients",
-  async (IClientRepository repo) =>
-  {
-      var results = await repo.GetClientsAsync();
-      return mapper.Map<
+    async (IClientRepository repo) =>
+    {
+        var results = await repo.GetClientsAsync();
+        return mapper.Map<
         IEnumerable<ClientModel>
-      >(results);
-  });
+        >(results);
+    });
 
 app.MapGet("/clients/{id:int}",
   async (int id, IClientRepository repo) =>
