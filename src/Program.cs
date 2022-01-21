@@ -5,7 +5,7 @@ builder.Services
   .AddTransient<IClientRepository,
                 ClientRepository>();
 builder.Services
-  .AddAutoMapper(Assembly.GetEntryAssembly());
+  .AddAutoMapper(typeof(ClientMappingProfile).Assembly);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

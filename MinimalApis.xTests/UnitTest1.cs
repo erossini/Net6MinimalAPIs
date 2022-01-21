@@ -1,12 +1,4 @@
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Hosting;
-using MinimalApis.Data;
 using MinimalApis.Models;
-using MinimalApis.xTests;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -47,6 +39,32 @@ namespace MinimalApis.xTests
 
             var todo = Assert.Single(clients);
             Assert.Equal(name, todo.Name);
+        }
+
+        [Fact]
+        public async Task DeleteTodos()
+        {
+            await using var application = new MinimalApisApplication();
+
+            string name = $"Test-{Guid.NewGuid()}";
+
+            var client = application.CreateClient();
+            var response = await client.PostAsJsonAsync("/clients", new ClientModel { Name = name });
+
+            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+
+            var clients = await client.GetFromJsonAsync<List<ClientModel>>("/clients");
+
+            var clt = Assert.Single(clients);
+            Assert.Equal(name, clt.Name);
+
+            response = await client.DeleteAsync($"/clients/{clt.Id}");
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            response = await client.GetAsync($"/clients/{clt.Id}");
+
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
     }
 }

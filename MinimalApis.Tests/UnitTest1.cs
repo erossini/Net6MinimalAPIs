@@ -47,5 +47,31 @@ namespace MinimalApis.Tests
             var cl = rsp.FirstOrDefault();
             Assert.AreEqual(name, cl.Name);
         }
+
+        [Test]
+        public async Task DeleteTodos()
+        {
+            await using var application = new MinimalApisApplication();
+
+            string name = $"Test-{Guid.NewGuid()}";
+
+            var client = application.CreateClient();
+            var response = await client.PostAsJsonAsync("/clients", new ClientModel { Name = name });
+
+            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
+
+            var clients = await client.GetFromJsonAsync<List<ClientModel>>("/clients");
+
+            var clt = clients.FirstOrDefault();
+            Assert.AreEqual(name, clt.Name);
+
+            response = await client.DeleteAsync($"/clients/{clt.Id}");
+
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+
+            response = await client.GetAsync($"/clients/{clt.Id}");
+
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
+        }
     }
 }
