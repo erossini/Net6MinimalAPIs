@@ -6,8 +6,8 @@ This code is related to my post [Minimal APIs in NET6](https://www.puresourcecod
 ## The code
 The repository contains:
 - **src**: source code of the minimal APIs with Swagger using Entity Framework Core for the database in memory and AutoMapper
-- **Test**: test APIs with NUnit
-- **xTest**: test APIs with xUnit
+- **Tests**: test APIs with NUnit
+- **xTests**: test APIs with xUnit
 
 ## Basic concepts
 So, the core idea behind minimal APIs is to remove some of the ceremony of creating simple APIs. It means defining lambda expressions for individual API calls. For example, this is as simple as it gets:
