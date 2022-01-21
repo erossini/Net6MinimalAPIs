@@ -1,45 +1,47 @@
-var builder = WebApplication.CreateBuilder(args);
+    var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<ClientContext>(opt => opt.UseInMemoryDatabase("Clients"));
-builder.Services
-  .AddTransient<IClientRepository,
-                ClientRepository>();
-builder.Services
-  .AddAutoMapper(Assembly.GetEntryAssembly());
+    builder.Services.AddDbContext<ClientContext>(opt => opt.UseInMemoryDatabase("Clients"));
+    builder.Services
+      .AddTransient<IClientRepository,
+                    ClientRepository>();
+    builder.Services
+      .AddAutoMapper(Assembly.GetEntryAssembly());
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Clients.Api", Version = "v1" });
-});
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen(c =>
+    {
+        c.SwaggerDoc("v1", new OpenApiInfo { Title = builder.Environment.ApplicationName, Version = "v1" });
+    });
 
-var app = builder.Build();
+    var app = builder.Build();
 
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("v1/swagger.json", "Minimal Clients API V1");
-});
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("v1/swagger.json", $"{builder.Environment.ApplicationName} v1");
+    });
 
-// Get a shared logger object
-var loggerFactory =
-  app.Services.GetService<ILoggerFactory>();
-var logger =
-  loggerFactory?.CreateLogger<Program>();
+    app.MapFallback(() => Results.Redirect("/swagger"));
 
-if (logger == null)
-{
-    throw new InvalidOperationException(
-      "Logger not found");
-}
+    // Get a shared logger object
+    var loggerFactory =
+      app.Services.GetService<ILoggerFactory>();
+    var logger =
+      loggerFactory?.CreateLogger<Program>();
 
-// Get the Automapper, we can share this too
-var mapper = app.Services.GetService<IMapper>();
-if (mapper == null)
-{
-    throw new InvalidOperationException(
-      "Mapper not found");
-}
+    if (logger == null)
+    {
+        throw new InvalidOperationException(
+          "Logger not found");
+    }
+
+    // Get the Automapper, we can share this too
+    var mapper = app.Services.GetService<IMapper>();
+    if (mapper == null)
+    {
+        throw new InvalidOperationException(
+          "Mapper not found");
+    }
 
 app.MapGet("/clients",
     async (IClientRepository repo) =>

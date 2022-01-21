@@ -5,7 +5,9 @@ VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalApis", "MinimalApis.csproj", "{0F005FFB-B944-4B85-89FB-43B34F53A8D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalApis.Tests", "..\MinimalApis.Tests\MinimalApis.Tests.csproj", "{0D512954-E455-4000-B13A-48ECA18AAB3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalApis.Tests", "..\MinimalApis.Tests\MinimalApis.Tests.csproj", "{0D512954-E455-4000-B13A-48ECA18AAB3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalApis.xTests", "..\MinimalApis.xTests\MinimalApis.xTests.csproj", "{FFD316C7-4DC3-4663-8C18-A2289E866C99}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{0D512954-E455-4000-B13A-48ECA18AAB3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D512954-E455-4000-B13A-48ECA18AAB3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D512954-E455-4000-B13A-48ECA18AAB3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFD316C7-4DC3-4663-8C18-A2289E866C99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFD316C7-4DC3-4663-8C18-A2289E866C99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFD316C7-4DC3-4663-8C18-A2289E866C99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFD316C7-4DC3-4663-8C18-A2289E866C99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
