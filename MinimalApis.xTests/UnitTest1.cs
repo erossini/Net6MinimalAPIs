@@ -7,7 +7,9 @@ using Microsoft.Extensions.Hosting;
 using MinimalApis.Data;
 using MinimalApis.Models;
 using MinimalApis.xTests;
+using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Xunit;
@@ -27,23 +29,24 @@ namespace MinimalApis.xTests
 
             Assert.Empty(notes);
         }
-    }
 
-    class MinimalApisApplication : WebApplicationFactory<Program>
-    {
-        protected override IHost CreateHost(IHostBuilder builder)
+        [Fact]
+        public async Task PostClients()
         {
-            var root = new InMemoryDatabaseRoot();
+            await using var application = new MinimalApisApplication();
 
-            builder.ConfigureServices(services =>
-            {
-                services.RemoveAll(typeof(DbContextOptions<ClientContext>));
+            string name = $"Test-{Guid.NewGuid()}";
 
-                services.AddDbContext<ClientContext>(options =>
-                    options.UseInMemoryDatabase("Testing", root));
-            });
+            var client = application.CreateClient();
+            var response = await client.PostAsJsonAsync("/clients", new ClientModel { Name = name });
+            response.EnsureSuccessStatusCode();
 
-            return base.CreateHost(builder);
+            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+
+            var clients = await client.GetFromJsonAsync<List<ClientModel>>("/clients");
+
+            var todo = Assert.Single(clients);
+            Assert.Equal(name, todo.Name);
         }
     }
 }

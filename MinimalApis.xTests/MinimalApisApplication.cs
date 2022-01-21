@@ -12,7 +12,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MinimalApis.Tests
+namespace MinimalApis.xTests
 {
     class MinimalApisApplication : WebApplicationFactory<Program>
     {
